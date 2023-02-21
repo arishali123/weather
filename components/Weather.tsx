@@ -85,11 +85,6 @@ const Weather = (): JSX.Element => {
 
   return (
     <div>
-      <div>
-        <Button onClick={handleUnitChange}>
-          {isCelsius ? "Switch to Fahrenheit" : "Switch to Celsius"}
-        </Button>
-      </div>
       <form onSubmit={handleSubmit}>
         <Input
           type="text"
@@ -99,6 +94,9 @@ const Weather = (): JSX.Element => {
         />
         <Button type="primary" htmlType="submit">
           Search
+        </Button>
+        <Button onClick={handleUnitChange}>
+          {isCelsius ? "Switch to Fahrenheit" : "Switch to Celsius"}
         </Button>
       </form>
       {suggestions.length > 0 && (
@@ -138,9 +136,6 @@ const Weather = (): JSX.Element => {
               <div>Max Wind Speed: {day.day.maxwind_mph} mph</div>
             </div>
           ))}
-          <Button onClick={handleUnitChange}>
-            {isCelsius ? "Switch to Fahrenheit" : "Switch to Celsius"}
-          </Button>
         </div>
       )}
     </div>
