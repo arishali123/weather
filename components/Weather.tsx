@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { Input, Button, Form, List, Typography } from "antd";
+const { Title } = Typography;
 interface WeatherData {
   location: {
     name: string;
@@ -85,42 +86,61 @@ const Weather = (): JSX.Element => {
   return (
     <div>
       <div>
-        <button onClick={handleUnitChange}>
+        <Button onClick={handleUnitChange}>
           {isCelsius ? "Switch to Fahrenheit" : "Switch to Celsius"}
-        </button>
+        </Button>
       </div>
       <form onSubmit={handleSubmit}>
-        <input
+        <Input
           type="text"
           value={city}
           onChange={handleInputChange}
           placeholder="Enter city"
         />
-        <button type="submit">Search</button>
+        <Button type="primary" htmlType="submit">
+          Search
+        </Button>
       </form>
       {suggestions.length > 0 && (
-        <ul>
-          {suggestions.map((item) => (
-            <li key={item.name} onClick={() => handleSelectSuggestion(item)}>
+        <List
+          bordered
+          dataSource={suggestions}
+          renderItem={(item) => (
+            <List.Item onClick={() => handleSelectSuggestion(item)}>
               {item.name}, {item.region}
-            </li>
-          ))}
-        </ul>
+            </List.Item>
+          )}
+        />
       )}
       {weatherData && weatherData.location && (
         <div>
-          <h1>Weather Forecast for {weatherData.location.name}</h1>
-          <div>Current Temperature: {weatherData.current.temp_f} F</div>
+          <Title level={3}>
+            Weather Forecast for {weatherData.location.name}
+          </Title>
+          <div>
+            Current Temperature:{" "}
+            {isCelsius
+              ? weatherData.current.temp_c + " C"
+              : weatherData.current.temp_f + " F"}
+          </div>
           <div>Wind Speed: {weatherData.current.wind_mph} mph</div>
           <div>Humidity: {weatherData.current.humidity}%</div>
-          <h2>5-Day Forecast</h2>
+          <Title level={4}>5-Day Forecast</Title>
           {weatherData.forecast.forecastday.map((day) => (
             <div key={day.date}>
-              <h3>{day.date}</h3>
-              <div>Average Temperature: {day.day.avgtemp_f} F</div>
+              <Title level={5}>{day.date}</Title>
+              <div>
+                Average Temperature:{" "}
+                {isCelsius
+                  ? day.day.avgtemp_c + " C"
+                  : day.day.avgtemp_f + " F"}
+              </div>
               <div>Max Wind Speed: {day.day.maxwind_mph} mph</div>
             </div>
           ))}
+          <Button onClick={handleUnitChange}>
+            {isCelsius ? "Switch to Fahrenheit" : "Switch to Celsius"}
+          </Button>
         </div>
       )}
     </div>
